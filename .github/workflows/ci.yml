@@ -9,11 +9,18 @@ on:
 jobs:
   build:
 
+    name: Build
+    env:
+      SCHEME: "ContinuesIntegrationExp"
+      DEVICE: "iPhone 11"
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+    - name: Build application
+      run: |
+            set -o pipefail && xcodebuild clean -scheme $SCHEME -destination "platform=iOS Simulator,name=$DEVICE" | xcpretty --color --simple
+   
+name: Feature pipeline
+
+on: pull_request
